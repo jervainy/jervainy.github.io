@@ -1,0 +1,742 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jervain">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1. 什么是Java泛型?Java泛型是JDK 5 中引入的一种编程语言特性，它允许在编写代码时使用参数化类型。泛型的主要目的是提高代码的灵活性和重用性，同时在编译时提供更强的类型检查。泛型具有以下优点：  编译时的强类型检查  避免了类型转换 泛型编程可以实现通用算法  123456789&#x2F;&#x2F; 未使用泛型List list1 &#x3D; new ArrayList();list1.add(1);Inte">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java泛型－概念">
+<meta property="og:url" content="https://blog.jervain.site/2025/03f8f6a73c.html">
+<meta property="og:site_name" content="Jervain的个人博客">
+<meta property="og:description" content="1. 什么是Java泛型?Java泛型是JDK 5 中引入的一种编程语言特性，它允许在编写代码时使用参数化类型。泛型的主要目的是提高代码的灵活性和重用性，同时在编译时提供更强的类型检查。泛型具有以下优点：  编译时的强类型检查  避免了类型转换 泛型编程可以实现通用算法  123456789&#x2F;&#x2F; 未使用泛型List list1 &#x3D; new ArrayList();list1.add(1);Inte">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-25T08:17:43.719Z">
+<meta property="article:modified_time" content="2025-03-25T08:17:43.719Z">
+<meta property="article:author" content="Jervain">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="泛型">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Java泛型－概念 - Jervain的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.jervain.site","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jervain的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/v2@3.webp') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Java泛型－概念"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-25 08:17" pubdate>
+          2025年3月25日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java泛型－概念</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="1-什么是Java泛型"><a href="#1-什么是Java泛型" class="headerlink" title="1. 什么是Java泛型?"></a>1. 什么是Java泛型?</h3><p>Java泛型是JDK 5 中引入的一种编程语言特性，它允许在编写代码时使用参数化类型。泛型的主要目的是提高代码的灵活性和重用性，同时在编译时提供更强的类型检查。<br>泛型具有以下优点：</p>
+<ul>
+<li>编译时的强类型检查 </li>
+<li>避免了类型转换</li>
+<li>泛型编程可以实现通用算法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 未使用泛型</span><br><span class="hljs-type">List</span> <span class="hljs-variable">list1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>();<br>list1.add(<span class="hljs-number">1</span>);<br><span class="hljs-type">Integer</span> <span class="hljs-variable">i1</span> <span class="hljs-operator">=</span> (Integer) list1.get(<span class="hljs-number">0</span>);<br><br><span class="hljs-comment">// 使用泛型</span><br>List&lt;String&gt; list2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>list2.add(<span class="hljs-string">&quot;hello world&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> list2.get(<span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+
+<p>以上例子在未使用泛型的情况下，list1中存放的是Object类型，在从list1中获取i1时需要进行强制类型转换，如果在list1中不小心放入了String类型，程序在运行中会抛出异常;<br>在使用泛型后，list2中只能存放String类型，如果往list2中放入Integer类型，在编写和编译代码时就能依赖JVM的强类型检查尽早发现错误。  </p>
+<h3 id="2-泛型的基本使用"><a href="#2-泛型的基本使用" class="headerlink" title="2. 泛型的基本使用"></a>2. 泛型的基本使用</h3><h4 id="2-1-泛型类"><a href="#2-1-泛型类" class="headerlink" title="2.1 泛型类"></a>2.1 泛型类</h4><p>泛型类的声明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">KvPair</span>&lt;K, V&gt; &#123;<br>    K key;<br>    V value;<br>&#125;<br><br><br>KvPair&lt;Integer, String&gt; pair1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KvPair</span>&lt;&gt;(); <span class="hljs-comment">// 正确  </span><br>KvPiar&lt;<span class="hljs-type">int</span>, string&gt; pair2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KvPair</span>&lt;&gt;(); <span class="hljs-comment">// 错误，不能是基本类型</span><br></code></pre></td></tr></table></figure>
+
+<p>泛型的类型只能是类，不能是基本类型  </p>
+<h4 id="2-2-泛型接口"><a href="#2-2-泛型接口" class="headerlink" title="2.2 泛型接口"></a>2.2 泛型接口</h4><p>泛型接口的声明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 声明一个果篮</span><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">FruitBasket</span>&lt;T&gt; &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(T obj)</span>; <span class="hljs-comment">// 放入水果</span><br>    T <span class="hljs-title function_">get</span><span class="hljs-params">()</span>; <span class="hljs-comment">// 取出水果</span><br>&#125;<br><br><span class="hljs-comment">// 苹果篮</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppleBasket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">FruitBasket</span>&lt;Apple&gt; &#123;&#125;<br><br><span class="hljs-comment">// 橙子篮</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">OrangeBasket</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">FruitBasket</span>&lt;Orange&gt; &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-3-泛型方法"><a href="#2-3-泛型方法" class="headerlink" title="2.3 泛型方法"></a>2.3 泛型方法</h4><p>泛型类中使用泛型方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 声明一个盒子，泛型定义在类上，方法使用类的泛型声明</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span>&lt;T&gt; &#123;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(T data)</span> &#123;&#125;<br><br>    T <span class="hljs-title function_">get</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>非泛型类中使用泛型方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 声明一个盒子，泛型定义在类上，方法使用类的泛型声明</span><br><span class="hljs-comment">// put方法、get方法不是同一个泛型类型，虽然泛型标识都是T</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span> &#123;<br><br>    &lt;T&gt; <span class="hljs-keyword">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(T data)</span> &#123;&#125;<br><br>    &lt;T&gt; T <span class="hljs-title function_">get</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>静态方法上使用泛型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span>&lt;T&gt; &#123;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(T data)</span> &#123;&#125;<br><br>    T <span class="hljs-title function_">get</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 因为类已定义了泛型T，在静态方法中不能再使用T</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;E&gt; Box&lt;E&gt; <span class="hljs-title function_">of</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Box</span>&lt;&gt;();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-4-泛型的上界、下界"><a href="#2-4-泛型的上界、下界" class="headerlink" title="2.4 泛型的上界、下界"></a>2.4 泛型的上界、下界</h4><p>在使用泛型的时候，我们可以为传入的泛型类型实参进行上下边界的限制。  </p>
+<p><strong>泛型上界</strong>：传入的类型实参必须是指定类型或者指定类型的子类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Number</span>&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>list.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>(<span class="hljs-number">1</span>)); <span class="hljs-comment">// 错误, Integer是Number的子类型</span><br>list.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Double</span>(<span class="hljs-number">2.0</span>)); <span class="hljs-comment">// 错误, Double是Number的子类型</span><br><span class="hljs-type">Number</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> list.get(<span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+
+<p><code>List&lt;? extends T&gt;</code>是被设计用来读取数据的泛型，并且只能读取类型为T的元素。如果要满足List&lt;? extends T&gt;能添加元素，需满足List中的任何一个元素都能被转换为T的子类，所以<code>List&lt;? extends T&gt;</code>不能用来写入元素。</p>
+<p><strong>泛型下界</strong>：传入的类型实参必须是指定类型或者指定类型的父类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;? <span class="hljs-built_in">super</span> Number&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>list.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>(<span class="hljs-number">1</span>)); <span class="hljs-comment">// 正确, Integer是Number的子类型</span><br>list.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Double</span>(<span class="hljs-number">2.0</span>)); <span class="hljs-comment">// 正确, Double是Number的子类型</span><br><span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> list.get(<span class="hljs-number">0</span>); <span class="hljs-comment">// 正确，但是需要强转为指定类型，失去了泛型的意义</span><br></code></pre></td></tr></table></figure>
+
+<p><code>List&lt;? super T&gt;</code>是被设计用来存储数据的，只能添加T类型或其子类类型。因为List中的任何一个元素都能向上转型为T类型或者T的父类型。</p>
+<p>PECS<br>PECS是”Producer Extends,Consumer Super”（生产者用Extends，消费者用Super）的缩写。</p>
+<ul>
+<li>“Producer Extends”的意思是，如果需要一个List去生产T类型的数据（需要从List中读取T类型实例），就声明List中的元素为<code>&lt;? extends T&gt;</code>，例如<code>List&lt;? extends Integer&gt;</code>，但是不能往里面添加元素。</li>
+<li>“Consumer Super”的意思是，如果需要一个List去消费T类型的数据（需要往List中添加T类型实例），就声明List中的元素为<code>&lt;? super T&gt;</code>，例如<code>List&lt;? super Integer&gt;</code>。但是不能保证从这个List中读取出来的数据类型。</li>
+</ul>
+<h4 id="2-5-无界通配符与向上转型"><a href="#2-5-无界通配符与向上转型" class="headerlink" title="2.5 无界通配符与向上转型"></a>2.5 无界通配符与向上转型</h4><p><strong>向上转型是指用子类实例去初始化父类，这是面向对象中多态的重要表现。</strong>    </p>
+<p>语法形式：<code>&lt;?&gt;</code>，不依赖于类型参数的泛型，不能添加数据，示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;?&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>list.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>(<span class="hljs-number">1</span>)); <span class="hljs-comment">// 错误</span><br>list.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Double</span>(<span class="hljs-number">2.0</span>)); <span class="hljs-comment">// 错误</span><br>list.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>()); <span class="hljs-comment">// 错误</span><br><span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> list.get(<span class="hljs-number">0</span>); <span class="hljs-comment">// 失去了泛型的意义</span><br><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">print1</span><span class="hljs-params">(List&lt;Number&gt; list)</span>;<br><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">print2</span><span class="hljs-params">(List&lt;?&gt; list)</span>;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    print1(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;Integer&gt;()); <span class="hljs-comment">// 错误</span><br>    print2(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;Integer&gt;()); <span class="hljs-comment">// 正确</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>泛型不能向上转型，但是可以通过使用通配符来向上转型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Integer</span>&gt; list1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>List&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Number</span>&gt; list2 = list1; <span class="hljs-comment">// 正确</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-6-泛型数组"><a href="#2-6-泛型数组" class="headerlink" title="2.6 泛型数组"></a>2.6 泛型数组</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt;[] list1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;String&gt;[<span class="hljs-number">10</span>]; <span class="hljs-comment">//编译错误 </span><br>List&lt;String&gt;[] list2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;?&gt;[<span class="hljs-number">10</span>]; <span class="hljs-comment">//编译错误</span><br>List&lt;String&gt;[] list3 = (List&lt;String&gt;[]) <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;?&gt;[<span class="hljs-number">10</span>]; <span class="hljs-comment">//正确,有警告 </span><br>List&lt;?&gt;[] list4 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;String&gt;[<span class="hljs-number">10</span>]; <span class="hljs-comment">//编译错误</span><br>List&lt;?&gt;[] list5 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;?&gt;[<span class="hljs-number">10</span>]; <span class="hljs-comment">// 正确</span><br>List&lt;String&gt;[] list6 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>[<span class="hljs-number">10</span>]; <span class="hljs-comment">//正确，有警告</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-深入理解Java泛型"><a href="#3-深入理解Java泛型" class="headerlink" title="3. 深入理解Java泛型"></a>3. 深入理解Java泛型</h3><h4 id="3-1-泛型擦除"><a href="#3-1-泛型擦除" class="headerlink" title="3.1 泛型擦除"></a>3.1 泛型擦除</h4><p>Java的泛型实现采取了“伪泛型”的策略，即语法上支持泛型，但是在编译阶段会进行“类型擦除”，将所有的泛型表示（尖括号中的内容）都替换为具体的类型。  </p>
+<p>类型擦除的方式：  </p>
+<ul>
+<li><p>删除类型参数声明，即删除&lt;&gt;的部分</p>
+</li>
+<li><p>根据上下界推断，将泛型类型替换为具体类型：如果是无界通配符(?)或者无上下界限制则替换为Object；存在上下界限制时则替换为限制的类型</p>
+</li>
+<li><p>插入强转换代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span>&lt;T&gt; &#123; T data; &#125;  ==&gt;  <span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span> &#123; Object data; &#125; <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span>&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Number</span>&gt; &#123; T data; &#125;  ==&gt;  <span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span> &#123; Number data; &#125; <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span>&lt;T <span class="hljs-built_in">super</span> Number&gt; &#123; T data; &#125;  ==&gt;  <span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span> &#123; Number data; &#125; <br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-2-泛型和反射"><a href="#3-2-泛型和反射" class="headerlink" title="3.2 泛型和反射"></a>3.2 泛型和反射</h4><ul>
+<li><p>泛型的实例化<br>因为泛型不存在Class文件，所以泛型不能直接实例化；但是可以通过反射进行实例化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">T</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">T</span>(); <span class="hljs-comment">// 错误</span><br>Class&lt;T&gt; clazz;<br><span class="hljs-type">T</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> (T) clazz.newInstance(); <span class="hljs-comment">// 正确</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/java/" class="category-chain-item">java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/java/%E6%B3%9B%E5%9E%8B/" class="category-chain-item">泛型</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/" class="print-no-link">#java</a>
+      
+        <a href="/tags/%E6%B3%9B%E5%9E%8B/" class="print-no-link">#泛型</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Java泛型－概念</div>
+      <div>https://blog.jervain.site/2025/03f8f6a73c.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jervain</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/0310a807dc.html" title="MacOS如何彻底删除Python">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MacOS如何彻底删除Python</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/0399e01d79.html" title="使用python绘制地震地图">
+                        <span class="hidden-mobile">使用python绘制地震地图</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'jervainy/jervainy.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

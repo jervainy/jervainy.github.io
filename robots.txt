@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: CNAME
+Disallow: google30fdc7ef533aec16.html
+Disallow: baidu_verify_codeva-vxFDX6Ubl6.html
+Disallow: BingSiteAuth.xml
+
+Sitemap: https://blog.jervain.site/sitemap.xml
+Sitemap: https://blog.jervain.site/sitemap.txt
+Sitemap: https://blog.jervain.site/baidusitemap.xml
